@@ -18,7 +18,7 @@ from telethon.tl.types import PeerUser, PeerChat, PeerChannel
 from telethon.errors.rpcerrorlist import FloodWaitError, ChannelPrivateError, UserAlreadyParticipantError
 from telethon.tl.functions.channels import  JoinChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 from models import Account, Channel, ChatUser, Keyword, Message, Monitor, Notification
 
 
@@ -100,18 +100,24 @@ class TGInformer:
         # Lets check if the file exists
 
         try:
-            if os.path.isfile(google_credentials_path):  
+            if os.path.isfile(google_credentials_path):
 
                 scope = [
                     'https://www.googleapis.com/auth/spreadsheets',
                     'https://www.googleapis.com/auth/drive']
-                creds = ServiceAccountCredentials.from_json_keyfile_name(google_credentials_path, scope)
+                creds = Credentials.from_service_account_file(google_credentials_path, scopes=scope)
 
                 self.gsheet = gspread.authorize(creds)
                 self.sheet = self.gsheet.open(google_sheet_name).sheet1
+                logging.info('Google Sheets integration enabled successfully\n')
             else:
+                logging.info(f'Google credentials file not found at {google_credentials_path}')
+                logging.info('Google Sheets integration is OPTIONAL and disabled.')
+                logging.info('See app/credentials/README.md for setup instructions\n')
                 self.gsheet = False
-        except gspread.exceptions.APIError:
+        except gspread.exceptions.APIError as e:
+            logging.error(f'Google Sheets API error: {e}')
+            logging.info('Google Sheets integration disabled. Continuing with database-only mode\n')
             self.gsheet = False
 
         # -------------------

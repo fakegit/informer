@@ -1,6 +1,14 @@
 ![image](https://raw.githubusercontent.com/paulpierre/informer/master/github/screenshots/informer-logo.gif)
 # Informer - Telegram Mass Surveillance
 
+## Update 10-20-2025
+* **Security**: Fixed high-severity vulnerability CVE-2022-1941 in mysql-connector-python
+* **Security**: Migrated from deprecated oauth2client to google-auth
+* Updated all dependencies to latest secure versions
+* Fixed quick_start.sh script bugs (venv creation and account_id parameter)
+* Fixed Docker MySQL connection issues for cross-platform compatibility
+* Improved Google Sheets setup documentation
+
 ## Update 08-23-2021
 * Updated to latest Telethon 1.23.0
 * Fixed database issues by migrating to docker-compose
@@ -70,12 +78,13 @@ This is a functioning proof-of-concept project with known bugs. Feel free to for
 * Burner app
 
 ### Python packages
-* SQLAlchemy (1.3.11)
+* SQLAlchemy (1.4.54)
 * sqlalchemy-migrate (0.13.0)
-* Telethon (1.10.8)
-* mysql-connector-python (8.0.18)
-* gspread (3.1.0)
-* oauth2client (4.1.3)
+* Telethon (1.36.0)
+* mysql-connector-python (8.4.0)
+* gspread (6.1.4)
+* google-auth (2.37.0) - replaces deprecated oauth2client
+* python-dotenv (1.0.1)
 
 ## Quick Start
 
@@ -274,11 +283,23 @@ TIP: TelegramX is by far the better client to use for these purposes as it suppo
 
 
 ## Google Sheets Integration
-The python library gspread is used for managing io with Google Sheets. You will need to have a Google Cloud Platform account and enable Google Drive APIs. Afterwards you must generate server credentials with a json api key.
 
-Instructions are here: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
+**Note: Google Sheets integration is completely OPTIONAL.** The application works perfectly fine with just the MySQL database.
 
-This is optional.
+If you want to enable Google Sheets logging:
+
+1. Follow the detailed setup guide in `app/credentials/README.md`
+2. The guide includes updated instructions for obtaining Google Cloud service account credentials (JSON key file)
+3. Google still provides JSON credential files - the process has just changed slightly since 2020
+
+Quick overview:
+- Create a Google Cloud project
+- Enable Google Sheets API and Google Drive API
+- Create a service account and download the JSON key
+- Place the JSON file in `app/credentials/google_credentials.json`
+- Share your Google Sheet with the service account email
+
+This is optional and the bot will work without it.
 
 
 ## Known Bugs
