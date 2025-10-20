@@ -57,12 +57,22 @@ Google Sheets integration is **optional**. If you don't need it, the application
    GOOGLE_SHEET_NAME=Your Sheet Name Here
    ```
 
+## Migration from oauth2client
+
+**Important:** This project has been updated to use `google-auth` instead of the deprecated `oauth2client` library.
+
+If you previously set up Google Sheets integration with oauth2client:
+- Your existing JSON credentials file will continue to work
+- No changes needed to your credentials
+- The migration is transparent - just update your dependencies
+
 ## Troubleshooting
 
 - If you see "google drive api no longer provides json files" - this is outdated information. Google still provides JSON keys through the service account method shown above.
 - Make sure the APIs are enabled in your Google Cloud project
 - Ensure the service account has access to your Google Sheet
 - The application will work without Google Sheets - it will log a message and continue with database-only storage
+- If you get import errors related to `oauth2client`, make sure you've installed the updated requirements: `pip install -r requirements.txt`
 
 ## Security Note
 
