@@ -33,7 +33,10 @@ services:
   app_informer:
     env_file:
       - informer.env
-    
+    environment:
+      # Override MySQL host to use Docker service name instead of localhost
+      - MYSQL_IP_ADDRESS=db_informer
+      - MYSQL_PORT=3306
     build: .
     command: /bin/bash -c "sleep 15; python3 bot.py ${TELEGRAM_ACCOUNT_ID}"
     container_name: app_informer

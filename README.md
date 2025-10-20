@@ -274,11 +274,23 @@ TIP: TelegramX is by far the better client to use for these purposes as it suppo
 
 
 ## Google Sheets Integration
-The python library gspread is used for managing io with Google Sheets. You will need to have a Google Cloud Platform account and enable Google Drive APIs. Afterwards you must generate server credentials with a json api key.
 
-Instructions are here: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
+**Note: Google Sheets integration is completely OPTIONAL.** The application works perfectly fine with just the MySQL database.
 
-This is optional.
+If you want to enable Google Sheets logging:
+
+1. Follow the detailed setup guide in `app/credentials/README.md`
+2. The guide includes updated instructions for obtaining Google Cloud service account credentials (JSON key file)
+3. Google still provides JSON credential files - the process has just changed slightly since 2020
+
+Quick overview:
+- Create a Google Cloud project
+- Enable Google Sheets API and Google Drive API
+- Create a service account and download the JSON key
+- Place the JSON file in `app/credentials/google_credentials.json`
+- Share your Google Sheet with the service account email
+
+This is optional and the bot will work without it.
 
 
 ## Known Bugs
